@@ -68,6 +68,9 @@ function App() {
         />
       </div>
       {error && <p className="read-the-docs">Error: {error}</p>}{" "}
+      <div className="card">
+        <button onClick={findSumPairs}>Find Pairs</button>
+      </div>
       {foundPairs && foundPairs.length > 0 && (
         <p className="read-the-docs">
           Found pairs:
@@ -79,11 +82,6 @@ function App() {
       {foundPairs && foundPairs.length === 0 && (
         <p className="read-the-docs">No found pairs :(</p>
       )}
-      <div className="card">
-        <button onClick={findSumPairs}>Find Pairs</button>
-      </div>
-      <p className="read-the-docs">numberList: {numberList?.toString()}</p>
-      <p className="read-the-docs">sumToFind: {sumToFind}</p>
     </div>
   );
 }
