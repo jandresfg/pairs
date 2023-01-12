@@ -68,14 +68,17 @@ function App() {
         />
       </div>
       {error && <p className="read-the-docs">Error: {error}</p>}{" "}
-      {foundPairs && (
+      {foundPairs && foundPairs.length > 0 && (
         <p className="read-the-docs">
           Found pairs:
           {foundPairs.map((pair) => (
             <div>{`{${pair[0]},${pair[1]}}`}</div>
           ))}
         </p>
-      )}{" "}
+      )}
+      {foundPairs && foundPairs.length === 0 && (
+        <p className="read-the-docs">No found pairs :(</p>
+      )}
       <div className="card">
         <button onClick={findSumPairs}>Find Pairs</button>
       </div>
