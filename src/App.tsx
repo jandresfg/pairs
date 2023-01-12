@@ -4,6 +4,8 @@ import "./App.css";
 function App() {
   const [numberList, setNumberList] = useState<number[]>();
   const [sumToFind, setSumToFind] = useState<number>();
+  const [error, setError] = useState<string>();
+  const [foundPairs, setFoundPairs] = useState<number[][]>();
 
   const updateList = (event: React.FormEvent<HTMLInputElement>) =>
     setNumberList(
@@ -17,6 +19,31 @@ function App() {
   const updateSumToFind = (event: React.FormEvent<HTMLInputElement>) => {
     let input = Number.parseInt((event.target.value as string).trim());
     isNaN(input) ? setSumToFind(undefined) : setSumToFind(input);
+  };
+
+  const findSumPairs = () => {
+    // reset foundPairs and error upon every exec
+    setFoundPairs(undefined);
+    setError(undefined);
+
+    if (numberList === undefined || sumToFind === undefined) {
+      setError("invalid input");
+      return;
+    }
+
+    const result: number[][] = [];
+
+    numberList.forEach((n1, i1) => {
+      // create a sublist from current position onwards and look for a pair there
+      let remainingList = numberList.slice(i1);
+      remainingList.forEach((n2) => {
+        if (n1 + n2 === sumToFind) {
+          result.push([n1, n2]);
+        }
+      });
+    });
+
+    setFoundPairs(result);
   };
 
   return (
@@ -40,10 +67,17 @@ function App() {
           onChange={updateSumToFind}
         />
       </div>
+      {error && <p className="read-the-docs">Error: {error}</p>}{" "}
+      {foundPairs && (
+        <p className="read-the-docs">
+          Found pairs:
+          {foundPairs.map((pair) => (
+            <div>{`{${pair[0]},${pair[1]}}`}</div>
+          ))}
+        </p>
+      )}{" "}
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          Find Pairs
-        </button>
+        <button onClick={findSumPairs}>Find Pairs</button>
       </div>
       <p className="read-the-docs">numberList: {numberList?.toString()}</p>
       <p className="read-the-docs">sumToFind: {sumToFind}</p>
